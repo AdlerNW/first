@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+  * {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: url(../img/bgwood.jpg) no-repeat;
+}
+
+#container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+/*
+  background: url(bgwood.png) no-repeat;
+  border: 1px solid #000;
+*/
+  width: 550px;
+  height: 350px;
+  padding: 0px;
+  margin: 50px 100px 40px 100px;
+  z-index: -2;
+}
+
+.slide {
+  width: 150px;
+  height: 192px;
+  margin: 20px 10px;
+  background-image: url(../img/nap.png);
+}
+
+#ball {
+  background-image: url(../img/ball.png);
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top: 250px;
+  left: 300px;
+  z-index: 0;
+}
+
+#slide1 {
+  position: relative;
+  z-index: 1;
+}
+
+#slide2 { 
+  position: relative;
+  z-index: 1;
+}
+
+#slide3 {
+  position: relative;
+  z-index: 1;
+}
+
+#h2 {
+  margin-left: 340px;
+  display: none;
+  color: lightgray;
+}
+
+#newGame {
+  width: 150px;
+  height: 40px;
+  margin: 10px 0 0 284px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-family: impact, Arial, sans-serif;
+}
+
+@keyframes upAndDown{
+
+  0%{
+    top: 0px;
+  }
+
+  20%{
+    top: -60px;
+  }
+  40%{
+    top: -100px;
+  }
+  50%{
+    top: -100px;
+  }
+  60%{
+    top: -100px;
+  }
+  80%{
+    top: -60px;
+  }
+  100%{
+    top: 0px;
+  }
+}
+
+@keyframes onlyUp{
+
+  0%{
+    top: 0px;
+  }
+  100%{
+    top: -100px;
+  }
+}
+
+@keyframes move1{
+
+  0%{
+    top: 0;
+    left: 0;
+  }
+  10%{
+    top: 60px;
+    left: 0px;
+  }
+  50%{
+    top: 60px;
+    left: 380px;
+  }
+  60%{
+    top: 0;
+    left: 380px;
+  }
+  100%{
+    top: 0;
+    left: 0;
+  }
+}
+
+@keyframes move2{
+
+  0%{
+    top: 0;
+    left: 0;
+  }
+  20%{
+    top: 0;
+    left: -190px;
+  }
+  30%{
+    top: 60px;
+    left: -190px;
+  }
+  70%{
+    top: 60px;
+    left: 190px;
+  }
+  80%{
+    top: 0;
+    left: 190px;
+  }
+  100%{
+    top: 0;
+    left: 0;
+  }
+}
+
+@keyframes move3{
+
+  0%{
+    top: 0;
+    left: 0;
+  }
+  40%{
+    top: 0;
+    left: -380px;
+  }
+  50%{
+    top: 60px;
+    left: -380px;
+  }
+  90%{
+    top: 60px;
+    left: 0;
+  }
+  100%{
+    top: 0;
+    left: 0;
+  }
+}
+</style>
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="container">
+    <div class="slide" id="slide1"></div>
+    <div class="slide" id="slide2"></div>
+    <div class="slide" id="slide3"></div>
+  </div>
+  <div id="ball"></div>
+  <h2 id="h2"></h2>
+  <button id="newGame">Начать игру</button>
+  <script>
+  let newGame = null,
+    slide1 = null,
+    slide2 = null,
+    slide3 = null,
+    ball = null,
+    h2 = null,
+    countAni = 0;
+    whereBall = 0;
+
+window.onload = function () {
+  newGame = document.getElementById('newGame');
+  slide1 = document.getElementById('slide1');
+  slide2 = document.getElementById('slide2');
+  slide3 = document.getElementById('slide3');
+  ball = document.getElementById('ball');
+  h2 = document.getElementById('h2');
+  
+  newGame.addEventListener('click', game);
+
+};
+
+function game() {
+  h2.style.display = 'none';
+  ball.style.left = '300px';
+  slide1.style.animation = 'none';
+  slide2.style.animation = 'none';
+  slide3.style.animation = 'none';
+  
+  
+  newGame.disabled = "disabled";
+  slide2.style.animation = 'upAndDown 4s linear 200ms 1';
+  whereBall = Math.floor(Math.random()*3 + 1);
+  setTimeout(moving, 5000);
+}
+
+function moving() {
+  ball.style.display = 'none';
+  slide1.style.animation = 'move1 800ms linear 7';
+  slide2.style.animation = 'move2 1200ms linear 5';
+  slide3.style.animation = 'move3 1000ms linear 6';
+  h2.textContent = "Запоминайте";
+  h2.style.display = "block";
+  h2.style.marginLeft = "288px";
+  setTimeout(afterAni, 6000);
+}
+
+function afterAni() {
+  h2.textContent = "Выбирайте наперсток";
+  h2.style.marginLeft = "240px";
+  ball.style.display = 'block';
+  if (whereBall == 1){
+    ball.style.left = '110px';
+  }
+  else {
+    if (whereBall == 3){
+      ball.style.left = '490px';
+    }
+  }
+  slide1.addEventListener('click', ballIsHere);
+  slide2.addEventListener('click', ballIsHere);
+  slide3.addEventListener('click', ballIsHere);
+}
+
+function ballIsHere(e) {
+  let idClicked = e.target.id;
+  
+  if (idClicked == slide1.id){
+    slide1.style.animation = 'onlyUp 1s linear 300ms 1';
+    slide1.style.animationFillMode = 'forwards';
+  }
+  
+  if (idClicked == slide2.id){
+    slide2.style.animation = 'onlyUp 1s linear 300ms 1';
+    slide2.style.animationFillMode = 'forwards';
+  }
+  
+  if (idClicked == slide3.id){
+    slide3.style.animation = 'onlyUp 1s linear 300ms 1';
+    slide3.style.animationFillMode = 'forwards';
+  }
+  
+  let numberFromId = idClicked.substr(5, 1);
+  
+  if (numberFromId == whereBall) {
+    h2.textContent = "Вы выиграли!";
+    h2.style.marginLeft = "285px";    
+  } else {
+    h2.textContent = "Вы проиграли!";
+    h2.style.marginLeft = "280px";  
+  }
+  
+  slide1.removeEventListener('click', ballIsHere);
+  slide2.removeEventListener('click', ballIsHere);
+  slide3.removeEventListener('click', ballIsHere);
+  
+  newGame.disabled = "";
+
+}
+
+  </script>
+</body>
+
+</html>
